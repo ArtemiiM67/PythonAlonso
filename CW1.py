@@ -27,7 +27,13 @@ def draw():
 
     rect(cx - 30, cy + 120, 40, 80)
     rect(cx + 30, cy + 120, 40, 80)
-
+    
+    fill(255, 0, 0)
+    arc(120, 250, 30, 30, 0, PI, PIE)
+    arc(280, 250, 30, 30, 0, PI, PIE)
+    arc(200, 40, 30, 30, PI, 2*PI+1, PIE)
+    arc(170, 360, 30, 30, 0, PI, PIE)
+    arc(230, 360, 30, 30, 0, PI, PIE)
          
 def grid():
     stroke(255)
