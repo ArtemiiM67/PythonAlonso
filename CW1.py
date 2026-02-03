@@ -1,17 +1,33 @@
 def setup():
     size(400, 400)
-    
+
 def draw():
-    background(220)
-    displayCoordinates()
+    background(240)
+    rect_mode(CENTER)
     grid()
-    fill(235)
-    rect(130, 120, 140, 80)
-    fill(235)
-    rect(190, 200, 20, 80)
-    for x in range(10):
-        fill(10*x, 20*x, 30*x)
-        ellipse(5*x+130, 5*y+60, 20, 20)
+    displayCoordinates()
+
+    cx = 200 
+    cy = 200  
+
+    fill(200)
+    rect(cx, cy - 120, 100, 80)
+
+    fill(0)
+    ellipse(cx - 20, cy - 130, 10, 10)
+    ellipse(cx + 20, cy - 130, 10, 10)
+
+    line(cx - 20, cy - 105, cx + 20, cy - 105)
+
+    fill(180)
+    rect(cx, cy, 120, 120)
+
+    rect(cx - 80, cy, 40, 100)
+    rect(cx + 80, cy, 40, 100)
+
+    rect(cx - 30, cy + 120, 40, 80)
+    rect(cx + 30, cy + 120, 40, 80)
+
          
 def grid():
     stroke(255)
