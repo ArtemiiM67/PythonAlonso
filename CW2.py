@@ -1,6 +1,6 @@
 def setup():
     size(800, 800)
-    background(255,182,193)
+    background(255, 182, 193)
     no_fill()
     stroke_weight(2)
 
@@ -20,7 +20,28 @@ def draw():
         80
     )
 
-    ellipse(x, y, 40 + 20 * sin(angle * 2), 40 + 20 * cos(angle * 2))
+    ellipse(
+        x, y,
+        40 + 20 * sin(angle * 2),
+        40 + 20 * cos(angle * 2)
+    )
+
+    rotate(angle)
+    rect_mode(CENTER)
+    rect(
+        cos(angle * 1.5) * r * 0.6,
+        sin(angle * 1.5) * r * 0.6,
+        30,
+        30
+    )
+
+    line(0, 0, x * 0.7, y * 0.7)
+
+    triangle(
+        -20, -10,
+        20, -10,
+        0, 20
+    )
 
     if r > width:
         no_loop()
