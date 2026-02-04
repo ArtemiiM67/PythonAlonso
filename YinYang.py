@@ -23,13 +23,32 @@ def setup():
     fill(255)
     circle(400, 275, 50)'''
 
-def draw():
+'''def draw():
+    background(random(40), random(40), random(40))
+
     fill(224, 157, 30)
     stroke_weight(3)
     circle(400, 400, 500)
     
     fill(172, 65, 65)
-    arc(400,500,200,100, radians(315), radians(225+360), OPEN)
+    arc(400, 500, 200, 100, radians(315), radians(225+360), CHORD)
+    
+    fill(255)
+    rect(350, 465, 30, 50)
+    rect(415, 465, 30, 50) 
+
+    fill(255)
+    circle(300, 320, 120) 
+    circle(500, 320, 120) 
+    
+    fill(0)
+    circle(325, 330, 40) 
+    circle(475, 330, 40)
+    
+    no_fill()
+    stroke_weight(5)
+    arc(300, 250, 100, 60, radians(180), radians(360))
+    arc(500, 250, 100, 60, radians(180), radians(360))'''
     
     
 
