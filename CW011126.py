@@ -39,17 +39,27 @@ def draw_ui():
     fill(0)
     text("+", 58, 37)
     text("-", 138, 37)
-    text("CLEAR", 225, 37)
+    text("CLEAR", 225, 37)  
     text("ERASER", 360, 37)
     text("RANDOM", 490, 37)
     text("SAVE", 658, 37)
+    
+    text_size(15)
+    text("(↑)", 75, 40)
+    text("(↓)", 155, 40)
+    text("(c)", 295, 40)  
+    text("(e)", 440, 40)   
+    text("(r)", 585, 40)   
+    text("(s)", 725, 40)
+    text_size(20)
 
     text("Size: " + str(brush["stroke"]), 800, 36)
 
     if is_mouse_pressed and mouse_button == LEFT:
 
         if 32 < mouse_x < 96 and 18 < mouse_y < 45:
-            brush["stroke"] += 1
+            if brush["stroke"] < 100:
+                brush["stroke"] += 1
 
         if 112 < mouse_x < 176 and 18 < mouse_y < 45:
             if brush["stroke"] > 1:
@@ -73,6 +83,13 @@ def draw_ui():
 
     draw_color_palette()
     draw_left_panel()
+    text_size(15)
+    text("(1)", 120, 200)
+    text("(2)", 120, 300)
+    text("(3)", 120, 400)
+    text("(4)", 120, 450)
+    text("(5)", 120, 550)
+    text_size(20)
 
 
 def draw_color_palette():
@@ -216,7 +233,8 @@ def draw_brush():
         push_matrix()
         translate(mouse_x, mouse_y)
         rotate(random(TWO_PI))
-        begin_shape() points1 = int(random(5, 12))
+        begin_shape()
+        points1 = int(random(5, 12))
         for i in range(points1):
             angle = TWO_PI / points1 * i
             radius = random(10, 60)
@@ -225,3 +243,40 @@ def draw_brush():
             vertex(x, y)
         end_shape(CLOSE)
         pop_matrix()
+
+
+def key_pressed():
+    if key == CODED:
+        if key_code == UP:
+            if brush["stroke"] < 100:
+                brush["stroke"] += 1
+        elif key_code == DOWN:
+            if brush["stroke"] > 1:
+                brush["stroke"] -= 1
+    elif key == 'c': 
+        background(255)
+    elif key == 'e':  
+        brush["eraser"] = True
+        brush["tool"] = "pencil"
+    elif key == 'r': 
+        brush["color1"] = random(255)
+        brush["color2"] = random(255)
+        brush["color3"] = random(255)
+        brush["eraser"] = False
+    elif key == 's': 
+        save_frame("my_drawing.png")
+    elif key == '1': 
+        brush["tool"] = "pencil"
+        brush["eraser"] = False
+    elif key == '2': 
+        brush["tool"] = "line"
+        brush["eraser"] = False
+    elif key == '3': 
+        brush["tool"] = "rect"
+        brush["eraser"] = False
+    elif key == '4':  
+        brush["tool"] = "circle"
+        brush["eraser"] = False
+    elif key == '5': 
+        brush["tool"] = "triangle"
+        brush["eraser"] = False
