@@ -7,6 +7,10 @@ brush = {
     "tool": "pencil"
 }
 
+start_x = 0
+start_y = 0
+
+
 def setup():
     size(1280, 720)
     background(255)
@@ -17,24 +21,71 @@ def draw():
     draw_brush()
 
 
+# KEYBOARD CONTROL
+def key_pressed():
+    global brush
+
+    if key == '=':
+        brush["stroke"] += 1
+
+    if key == '-' and brush["stroke"] > 1:
+        brush["stroke"] -= 1
+
+    if key == 'c' or key == 'C':
+        background(255)
+
+    if key == 'e' or key == 'E':
+        brush["eraser"] = True
+        brush["tool"] = "pencil"
+
+    if key == 'r' or key == 'R':
+        brush["color1"] = random(255)
+        brush["color2"] = random(255)
+        brush["color3"] = random(255)
+        brush["eraser"] = False
+
+    if key == 's' or key == 'S':
+        save_frame("my_drawing.png")
+
+    if key == '1':
+        brush["tool"] = "pencil"
+        brush["eraser"] = False
+
+    if key == '2':
+        brush["tool"] = "line"
+        brush["eraser"] = False
+
+    if key == '3':
+        brush["tool"] = "rect"
+        brush["eraser"] = False
+
+    if key == '4':
+        brush["tool"] = "circle"
+        brush["eraser"] = False
+
+    if key == '5':
+        brush["tool"] = "triangle"
+        brush["eraser"] = False
+
+
 def draw_ui():
     stroke(0)
     stroke_weight(2)
     fill(191, 172, 172)
-    rect(0, 0, width, 158)           # top bar
-    rect(0, 158, 158, height)        # left panel
+    rect(0, 0, width, 158)
+    rect(0, 158, 158, height)
 
     fill(0)
     text_size(20)
     text("Artemii's Paint App", 500, 698)
 
     fill(200)
-    rect(32, 18, 64, 27)     # +
-    rect(112, 18, 64, 27)    # -
-    rect(192, 18, 128, 27)   # CLEAR
-    rect(336, 18, 128, 27)   # ERASER
-    rect(480, 18, 128, 27)   # RANDOM
-    rect(624, 18, 128, 27)   # SAVE
+    rect(32, 18, 64, 27)     
+    rect(112, 18, 64, 27)    
+    rect(192, 18, 128, 27)   
+    rect(336, 18, 128, 27)   
+    rect(480, 18, 128, 27)   
+    rect(624, 18, 128, 27)   
 
     fill(0)
     text("+", 58, 37)
@@ -44,6 +95,15 @@ def draw_ui():
     text("RANDOM", 490, 37)
     text("SAVE", 658, 37)
 
+    text_size(13)
+    text("(=)", 82, 44)
+    text("(-)", 164, 44)
+    text("(C)", 300, 44)
+    text("(E)", 445, 44)
+    text("(R)", 585, 44)
+    text("(S)", 735, 44)
+
+    text_size(20)
     text("Size: " + str(brush["stroke"]), 800, 36)
 
     if is_mouse_pressed and mouse_button == LEFT:
@@ -73,11 +133,12 @@ def draw_ui():
 
     draw_color_palette()
     draw_left_panel()
-
+    draw_rgb_controls()
 
 def draw_color_palette():
     cols = 16
     rows = 2
+
     for row in range(rows):
         for col in range(cols):
             x = 32 + col * 72
@@ -107,6 +168,45 @@ def draw_color_palette():
     fill(brush["color1"], brush["color2"], brush["color3"])
     circle(1120, 31, brush["stroke"] * 2)
 
+def draw_rgb_controls():
+    x_start = 20    
+    y_start = 620      
+    spacing = 30
+
+    labels = ["R", "G", "B"]
+    keys = ["color1", "color2", "color3"]
+
+    fill(0)
+    text_size(16)
+    text("RGB Manual Colors", x_start, y_start - 20)
+
+    for i in range(3):
+        y = y_start + i * spacing
+
+        fill(0)
+        text(labels[i] + ":", x_start, y)
+
+        fill(200)
+        rect(x_start + 40, y - 15, 25, 20)
+        fill(0)
+        text("-", x_start + 48, y)
+
+        fill(200)
+        rect(x_start + 100, y - 15, 25, 20)
+        fill(0)
+        text("+", x_start + 108, y)
+
+        fill(0)
+        text(str(int(brush[keys[i]])), x_start + 75, y)
+
+        if is_mouse_pressed and mouse_button == LEFT:
+            if (x_start + 40 < mouse_x < x_start + 65 and
+                y - 15 < mouse_y < y + 5):
+                brush[keys[i]] = max(0, brush[keys[i]] - 1)
+
+            if (x_start + 100 < mouse_x < x_start + 125 and
+                y - 15 < mouse_y < y + 5):
+                brush[keys[i]] = min(255, brush[keys[i]] + 1)
 
 def draw_left_panel():
     fill(220)
@@ -115,7 +215,9 @@ def draw_left_panel():
 
     tools = ["pencil", "line", "rect", "circle", "triangle"]
 
-    for tool in tools:
+    for i in range(len(tools)):
+        tool = tools[i]
+
         if brush["tool"] == tool:
             fill(180)
         else:
@@ -124,7 +226,13 @@ def draw_left_panel():
         rect(20, y, 118, h)
 
         fill(0)
-        text(tool.upper(), 35, y + 35)
+        text_size(18)
+        text(tool.upper(), 35, y + 30)
+
+        text_size(12)
+        text("(" + str(i + 1) + ")", 35, y + 50)
+
+        text_size(20)
 
         if (20 < mouse_x < 138 and
             y < mouse_y < y + h and
@@ -148,11 +256,6 @@ def update_cursor():
         cursor(TEXT)
     elif brush["tool"] == "triangle":
         cursor(WAIT)
-
-
-
-start_x = 0
-start_y = 0
 
 
 def draw_brush():
@@ -205,23 +308,29 @@ def draw_brush():
             triangle(start_x, start_y,
                      mouse_x, mouse_y,
                      start_x, mouse_y)
-            
+
     if is_mouse_pressed and mouse_button == RIGHT:
         r = random(255)
         g = random(255)
         b = random(255)
+
         stroke(r, g, b)
         fill(random(255), random(255), random(255))
         stroke_weight(random(1, 6))
+
         push_matrix()
         translate(mouse_x, mouse_y)
         rotate(random(TWO_PI))
-        begin_shape() points1 = int(random(5, 12))
+
+        begin_shape()
+        points1 = int(random(5, 12))
+
         for i in range(points1):
             angle = TWO_PI / points1 * i
             radius = random(10, 60)
             x = cos(angle) * radius + random(-10, 10)
             y = sin(angle) * radius + random(-10, 10)
             vertex(x, y)
+
         end_shape(CLOSE)
         pop_matrix()
