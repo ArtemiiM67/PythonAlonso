@@ -8,7 +8,30 @@ phrases = [
     "Me pretending to understand math",
     "That moment before the teacher calls on you",
     "When you realize it's Monday tomorrow",
-    "I said 5 more minutes... 3 hours ago"
+    "I said 5 more minutes... 3 hours ago",
+    "The feeling when knee surgery is tomorrow",
+    "Average school day:",
+    "How bro looks at me before installing \n a virus on my computer",
+    "When you finally realize it's Monday.",
+    "That feeling when you finish a series and don't know what to do with your life.",
+    "Me: I'll be productive today. Also me: *scrolls for 3 hours*",
+    "When you’re too tired to function but still have 5 more tasks to do.",
+    "When the Wi-Fi goes down for 5 minutes and you start panicking.",
+    "When you’re trying to act normal but your brain is screaming for help.",
+    "How I think I look vs. How I actually look.",
+    "When the teacher calls on you and you haven't been paying attention.",
+    "That moment when you realize you’ve been singing the wrong lyrics for years.",
+    "Me pretending to listen while thinking about food.",
+    "When you try to be healthy but pizza calls your name.",
+    "Me: I’m going to bed early tonight. Also me: *stays up until 3 AM*",
+    "When you see someone you know, but you don’t know if they saw you first.",
+    "That moment when you find a snack you forgot about.",
+    "When you find a new show and watch it in one sitting.",
+    "Me on my way to make the worst decision of my life.",
+    "When your pet looks at you like you're crazy for no reason.",
+    "When you finally get the joke after 10 minutes of silence.",
+    "Me trying to act like I’m not embarrassed after a small mistake.",
+    "When you successfully avoid adulting for just one more day.",
 ]
 
 font_sizes = [25, 30, 35, 40]
@@ -42,7 +65,7 @@ def draw():
     image(meme["py5_image"], 0, 0, width, height)
     text_size(meme["font_size"])
     fill(*meme["font_color"])
-    text(meme["phrase"], 375, height - 100)
+    text(meme["phrase"], 375, 100)
 
     fill(0, 255, 0) 
     rect(button_x, button_y, button_w, button_h)
