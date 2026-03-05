@@ -1,7 +1,7 @@
 import random
 import math
 
-sign = {"x": 450, "y": 350, "xSpeed": 10, "ySpeed": 10}
+sign = {"x": 450, "y": 350, "xSpeed": 10, "ySpeed": 5}
 img = None
 
 def setup():
