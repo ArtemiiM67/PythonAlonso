@@ -34,7 +34,7 @@ print(student1.name, student1.grade)
 student2 = Student("Skibidi", "85%")
 print(student1.name, student1.grade)
 
-student3 = Student("Gay Issac", "100%")
+student3 = Student("Issac", "100%")
 print(student3.name, student3.grade)
 
 
@@ -127,6 +127,6 @@ my_new_students = [student4, student5, student6]
 for student in my_new_students:
     for house in my_houses:
         if student.savings >= house.price:
-            print(student.name, "can Afford", house.name)
+            print(student.name, "can afford", house.address)
         else:
-            print(student.name, "- he's too broke for", house.name)
+            print(student.name, "- is too broke for", house.address)
