@@ -10,8 +10,8 @@ class Wiggler:
         self.canvas_height = canvas_height
         self.x = uniform(0, self.canvas_width)
         self.y = uniform(0, self.canvas_height)
-        self.xSpd = uniform(-3, 3)
-        self.ySpd = uniform(-3, 3)
+        self.xSpd = uniform(-10, 10)
+        self.ySpd = uniform(-10, 10)
         self.color = (randint(0, 255), randint(0, 255), randint(0, 255), 150)
         self.click_count = 0
 

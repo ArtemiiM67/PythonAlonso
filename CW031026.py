@@ -4,13 +4,13 @@ from collide2d import collidePointCircle
 wigglers = []
 
 def setup():
-    size(510,350)
+    size(1000,800)
+    background(220)
     global wigglers, width1, height
-    width1, height1 = 510, 350
+    width1, height1 = 1000, 800
     wigglers = [Wiggler(35, 35, width1, height1) for _ in range(3)]
 
 def draw():
-    background(220)
     for w in wigglers:
         w.animate()
 
