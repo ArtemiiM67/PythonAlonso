@@ -4,13 +4,22 @@ rotation = 0
 bounce_direction = 1  
 bounce_amount = 0
 
+diag_x = 0
+diag_y = 0
+
+horiz_x = 0
+vert_y = 0
+
 def setup():
     size(510, 350)
 
 def draw():
     global angle, rotation, bounce_amount, bounce_direction
+    global diag_x, diag_y, horiz_x, vert_y
+    
     background(20, 20, 30, 50)  
     
+    push_matrix()
     translate(width / 2, height / 2) 
     rotate(radians(rotation))  
     
@@ -29,6 +38,36 @@ def draw():
         no_stroke()
         ellipse(x, y, circle_size, circle_size)
     
+    pop_matrix()
+    
+    diag_x += 2
+    diag_y += 1.5
+    
+    if diag_x > width:
+        diag_x = 0
+    if diag_y > height:
+        diag_y = 0
+    
+    fill(255, 150, 200, 180)
+    rect(diag_x, diag_y, 20, 20)
+    rect(width - diag_x, height - diag_y, 15, 15)
+    
+    horiz_x += 3
+    if horiz_x > width:
+        horiz_x = 0
+    
+    fill(100, 200, 255, 150)
+    rect(horiz_x, 50, 60, 10)
+    rect(width - horiz_x, 100, 40, 8)
+    
+    vert_y += 2
+    if vert_y > height or vert_y < 0:
+        vert_y = 0
+    
+    fill(200, 255, 120, 180)
+    ellipse(80, vert_y, 20, 20)
+    ellipse(width - 80, height - vert_y, 25, 25)
+    
     angle += 2 
     rotation += 0.5
     
@@ -42,7 +81,7 @@ def draw():
         bounce()
         bounce()
         bounce()
-        
+
 def bounce():
     global bounce_direction, bounce_amount
     bounce_amount += 20 * bounce_direction
