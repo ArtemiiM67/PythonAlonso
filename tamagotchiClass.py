@@ -1,4 +1,5 @@
 # PY5 IMPORTED MODE CODE
+
 class tamagotchi:
     def __init__(self, name):
         self.name = name
@@ -14,7 +15,33 @@ class tamagotchi:
         self.destroy_start_frame = 0
         self.destroy_stage = 0
 
+        self.bouncing = False
+        self.bounce_start_frame = 0
+        self.pos_x = 350
+        self.pos_y = 250
+        self.vel_x = 5
+        self.vel_y = 4
+
+
     def update(self):
+
+        if self.bouncing:
+
+            if frame_count - self.bounce_start_frame > 300:
+                self.bouncing = False
+                self.pos_x = width / 2
+                self.pos_y = 250
+            else:
+
+                self.pos_x += self.vel_x
+                self.pos_y += self.vel_y
+
+                if self.pos_x < 90 or self.pos_x > width - 90:
+                    self.vel_x *= -1
+
+                if self.pos_y < 120 or self.pos_y > 340:
+                    self.vel_y *= -1
+
         if self.destroying:
             elapsed = frame_count - self.destroy_start_frame
 
@@ -64,12 +91,20 @@ class tamagotchi:
             self.alive = False
             self.message = self.name + " could not be cared for anymore..."
 
+
+    def start_bounce(self):
+        self.bouncing = True
+        self.bounce_start_frame = frame_count
+
+
     def feed(self):
         if not self.alive or self.destroying:
             return
         self.hunger = min(100, self.hunger + 20)
-        self.energy = max(0, self.energy - 2)
+        self.energy = min(100, self.energy + 2)
         self.message = "You fed " + self.name + "!"
+        self.start_bounce()
+
 
     def play(self):
         if not self.alive or self.destroying:
@@ -79,6 +114,8 @@ class tamagotchi:
         self.energy = max(0, self.energy - 5)
         self.cleanliness = max(0, self.cleanliness - 4)
         self.message = self.name + " had fun!"
+        self.start_bounce()
+
 
     def clean(self):
         if not self.alive or self.destroying:
@@ -86,6 +123,8 @@ class tamagotchi:
         self.cleanliness = min(100, self.cleanliness + 30)
         self.happiness = max(0, self.happiness - 2)
         self.message = self.name + " is nice and clean!"
+        self.start_bounce()
+
 
     def secret_ending(self):
         if not self.alive or self.destroying:
@@ -94,6 +133,7 @@ class tamagotchi:
         self.destroy_start_frame = frame_count
         self.destroy_stage = 3
         self.message = self.name + " is now up for destruction in 3..."
+
 
     def restart(self):
         self.hunger = 100
@@ -106,9 +146,14 @@ class tamagotchi:
         self.destroying = False
         self.destroy_start_frame = 0
         self.destroy_stage = 0
+        self.bouncing = False
+        self.pos_x = width / 2
+        self.pos_y = 250
+
 
     def age_seconds(self):
         return self.age_frames // 60
+
 
     def face_mood(self):
         if self.happiness > 60:

@@ -30,59 +30,40 @@ def draw_room():
 
 
 def draw_pet(pet):
+    x = pet.pos_x if pet.bouncing else width / 2
+    y = pet.pos_y if pet.bouncing else 250
+
     if pet.destroying:
         elapsed = frame_count - pet.destroy_start_frame
         bounce = sin(frame_count * 0.25) * 10
 
         fill(0, 0, 0, 40)
-        ellipse(width / 2, 330, 150, 35)
+        ellipse(x, y + 80, 150, 35)
 
         no_stroke()
         fill(255, 80, 80)
-        ellipse(width / 2, 250 + bounce, 180, 160)
+        ellipse(x, y + bounce, 180, 160)
 
-        triangle(
-            width / 2 - 60, 185 + bounce,
-            width / 2 - 25, 120 + bounce,
-            width / 2 - 5, 195 + bounce
-        )
-        triangle(
-            width / 2 + 60, 185 + bounce,
-            width / 2 + 25, 120 + bounce,
-            width / 2 + 5, 195 + bounce
-        )
+        triangle(x - 60, y - 65 + bounce, x - 25, y - 130 + bounce, x - 5, y - 55 + bounce)
+        triangle(x + 60, y - 65 + bounce, x + 25, y - 130 + bounce, x + 5, y - 55 + bounce)
 
         fill(0)
-        ellipse(width / 2 - 35, 235 + bounce, 22, 28)
-        ellipse(width / 2 + 35, 235 + bounce, 22, 28)
+        ellipse(x - 35, y - 15 + bounce, 22, 28)
+        ellipse(x + 35, y - 15 + bounce, 22, 28)
 
         fill(255, 255, 0)
         text_size(40)
-        text("NOOO!", width / 2, 270 + bounce)
+        text("NOOO!", x, y + 20 + bounce)
 
         fill(255, 0, 0)
         text_size(42)
         if pet.destroy_stage > 0:
-            text(str(pet.destroy_stage), width / 2, 120)
-
-        if elapsed >= 180 and elapsed < 240:
-            no_stroke()
-            fill(255, 200, 0, 220)
-            ellipse(width / 2, 250, 240, 240)
-            fill(255, 120, 0, 220)
-            ellipse(width / 2, 250, 170, 170)
-            fill(255, 255, 180, 220)
-            ellipse(width / 2, 250, 90, 90)
-
-            fill(255, 80, 0, 180)
-            ellipse(width / 2 - 80, 220, 70, 70)
-            ellipse(width / 2 + 85, 225, 65, 65)
-            ellipse(width / 2 - 45, 315, 60, 60)
-            ellipse(width / 2 + 55, 310, 75, 75)
+            text(str(pet.destroy_stage), x, 120)
 
         return
 
     if pet.alive:
+
         bounce = sin(frame_count * 0.08) * 5
 
         body_r = 130 + (pet.happiness * 125) / 100
@@ -90,74 +71,54 @@ def draw_pet(pet):
         body_b = 180
 
         fill(0, 0, 0, 40)
-        ellipse(width / 2, 330, 150, 35)
+        ellipse(x, y + 80, 150, 35)
 
         no_stroke()
         fill(body_r, body_g, body_b)
-        ellipse(width / 2, 250 + bounce, 180, 160)
+        ellipse(x, y + bounce, 180, 160)
 
-        triangle(
-            width / 2 - 60, 185 + bounce,
-            width / 2 - 25, 120 + bounce,
-            width / 2 - 5, 195 + bounce
-        )
-        triangle(
-            width / 2 + 60, 185 + bounce,
-            width / 2 + 25, 120 + bounce,
-            width / 2 + 5, 195 + bounce
-        )
+        triangle(x - 60, y - 65 + bounce, x - 25, y - 130 + bounce, x - 5, y - 55 + bounce)
+        triangle(x + 60, y - 65 + bounce, x + 25, y - 130 + bounce, x + 5, y - 55 + bounce)
 
         fill(0)
-        ellipse(width / 2 - 35, 235 + bounce, 18, 24)
-        ellipse(width / 2 + 35, 235 + bounce, 18, 24)
+        ellipse(x - 35, y - 15 + bounce, 18, 24)
+        ellipse(x + 35, y - 15 + bounce, 18, 24)
 
         fill(255)
-        ellipse(width / 2 - 38, 230 + bounce, 5, 7)
-        ellipse(width / 2 + 32, 230 + bounce, 5, 7)
+        ellipse(x - 38, y - 20 + bounce, 5, 7)
+        ellipse(x + 32, y - 20 + bounce, 5, 7)
 
         no_fill()
         stroke(0)
         stroke_weight(3)
 
         mood = pet.face_mood()
+
         if mood == "happy":
-            arc(width / 2, 270 + bounce, 45, 25, 0.1, PI - 0.1)
+            arc(x, y + 20 + bounce, 45, 25, 0.1, PI - 0.1)
         elif mood == "neutral":
-            line(width / 2 - 15, 270 + bounce, width / 2 + 15, 270 + bounce)
+            line(x - 15, y + 20 + bounce, x + 15, y + 20 + bounce)
         else:
-            arc(width / 2, 282 + bounce, 45, 25, PI + 0.1, TWO_PI - 0.1)
-
-        if pet.cleanliness < 45:
-            no_stroke()
-            fill(120, 90, 60)
-            ellipse(width / 2 - 50, 285 + bounce, 12, 10)
-            ellipse(width / 2 + 30, 300 + bounce, 14, 11)
-            ellipse(width / 2 + 55, 230 + bounce, 10, 9)
-
-        if pet.energy < 30:
-            fill(40, 80, 180)
-            text_size(24)
-            text("Z", width / 2 + 95, 170 + bounce)
-            text_size(18)
-            text("Z", width / 2 + 120, 145 + bounce)
+            arc(x, y + 32 + bounce, 45, 25, PI + 0.1, TWO_PI - 0.1)
 
     else:
+
         fill(0, 0, 0, 40)
-        ellipse(width / 2, 330, 150, 35)
+        ellipse(x, y + 80, 150, 35)
 
         no_stroke()
         fill(160)
-        ellipse(width / 2, 250, 180, 160)
+        ellipse(x, y, 180, 160)
 
         stroke(0)
         stroke_weight(3)
-        line(width / 2 - 45, 230, width / 2 - 20, 250)
-        line(width / 2 - 20, 230, width / 2 - 45, 250)
-        line(width / 2 + 20, 230, width / 2 + 45, 250)
-        line(width / 2 + 45, 230, width / 2 + 20, 250)
+        line(x - 45, y - 20, x - 20, y)
+        line(x - 20, y - 20, x - 45, y)
+        line(x + 20, y - 20, x + 45, y)
+        line(x + 45, y - 20, x + 20, y)
 
         no_fill()
-        arc(width / 2, 285, 40, 20, PI + 0.2, TWO_PI - 0.2)
+        arc(x, y + 35, 40, 20, PI + 0.2, TWO_PI - 0.2)
 
 
 def draw_ui(pet):
@@ -181,25 +142,40 @@ def draw_ui(pet):
     text_size(18)
     text(pet.message, width / 2, 390)
 
+
+def key_pressed():
+    if key == "f" or key == "F":
+        pet.feed()
+    elif key == "p" or key == "P":
+        pet.play()
+    elif key == "c" or key == "C":
+        pet.clean()
+    elif (key == "r" or key == "R") and not pet.alive:
+        pet.restart()
+    elif key == "k" or key == "K":
+        pet.secret_ending()
+
+
+def mouse_pressed():
     if not pet.alive:
-        fill(0, 170)
-        rect(width / 2, height / 2, width, height)
+        return
 
-        fill(255)
-        text_size(36)
-        text("Game Over", width / 2, height / 2 - 20)
-
-        text_size(20)
-        text("Press R to restart", width / 2, height / 2 + 25)
-
-
+    if inside_button(150, 440, 120, 45):
+        pet.feed()
+    elif inside_button(350, 440, 120, 45):
+        pet.play()
+    elif inside_button(550, 440, 120, 45):
+        pet.clean()
+        
 def draw_stat_bar(x, y, value, bar_color, label):
+
     fill(20)
     text_size(16)
     text_align(LEFT, CENTER)
     text(label, x - 90, y)
 
     rect_mode(CORNER)
+
     no_stroke()
     fill(230)
     rect(x, y - 10, 180, 20)
@@ -215,6 +191,7 @@ def draw_stat_bar(x, y, value, bar_color, label):
 
 
 def draw_button(x, y, w, h, label):
+
     over = (
         mouse_x > x - w / 2 and mouse_x < x + w / 2
         and mouse_y > y - h / 2 and mouse_y < y + h / 2
@@ -236,31 +213,8 @@ def draw_button(x, y, w, h, label):
 
 
 def inside_button(x, y, w, h):
+
     return (
         mouse_x > x - w / 2 and mouse_x < x + w / 2
         and mouse_y > y - h / 2 and mouse_y < y + h / 2
     )
-
-
-def key_pressed():
-    if key == "f" or key == "F":
-        pet.feed()
-    elif key == "p" or key == "P":
-        pet.play()
-    elif key == "c" or key == "C":
-        pet.clean()
-    elif (key == "r" or key == "R") and not pet.alive:
-        pet.restart()
-    elif key == "k" or key == "K":
-        pet.secret_ending()
-
-def mouse_pressed():
-    if not pet.alive:
-        return
-
-    if inside_button(150, 440, 120, 45):
-        pet.feed()
-    elif inside_button(350, 440, 120, 45):
-        pet.play()
-    elif inside_button(550, 440, 120, 45):
-        pet.clean()
