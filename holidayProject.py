@@ -1,5 +1,6 @@
 from PIL import Image
 from random import uniform
+from playsound import playsound
 
 pig = None
 
@@ -79,6 +80,7 @@ def setup():
     text_align(CENTER, CENTER)
     text_size(60)
     pig_obj = Pig(width/2, height/2)
+    playsound('PeppaPig.mp3')
 
 def draw():
     background(255, 220, 220)
