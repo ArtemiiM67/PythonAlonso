@@ -8,31 +8,25 @@ def draw():
     translate(width / 2, height / 2)
     
     n = 12
-    t = frame_count * 0.03
+    t = frame_count * 0.05
     
     for i in range(n):
         base_angle = TWO_PI / n * i
         
         push_matrix()
         
-        # rotate entire system (orbit motion)
         rotate(t)
         
-        # place evenly around circle
         rotate(base_angle)
         translate(200, 0)
         
-        # make shapes face the center
-        rotate(PI)   # point inward
+        rotate(PI)   
         
-        # OPTIONAL: cancel system rotation so orientation stays locked
         rotate(-t)
         
-        # color symmetry
         hue1 = (i * 360 / n + frame_count * 2) % 360
         fill(hue1, 100, 100)
-        
-        # pulsating shape
+    
         w = 40 + 20 * sin(t * 2 + i)
         h = 60 + 20 * cos(t * 2 + i)
         
