@@ -1,52 +1,63 @@
 def setup():
-    size(400, 400)
+     size(400, 400)
+     text_align( CENTER,  CENTER)
 
 def draw():
-    background(240)
-    rect_mode(CENTER)
-    grid()
-    displayCoordinates()
+     background(245, 245, 240)
 
-    cx = 200 
-    cy = 200  
+     cx, cy =  width / 2,  height / 2
+     R = 160
 
-    fill(200)
-    rect(cx, cy - 120, 100, 80)
+     now_s =  second()
+     now_m =  minute()
+     now_h =  hour()
 
-    fill(0)
-    ellipse(cx - 20, cy - 130, 10, 10)
-    ellipse(cx + 20, cy - 130, 10, 10)
+     sec_angle =  remap(now_s, 0, 60, 0,  TWO_PI) -  HALF_PI
+     min_angle =  remap(now_m + now_s / 60, 0, 60, 0,  TWO_PI) -  HALF_PI
+     hr_angle  =  remap((now_h % 12) + now_m / 60, 0, 12, 0,  TWO_PI) -  HALF_PI
+ 
+     no_stroke()
+     fill(160)
+     circle(cx, cy, (R + 14) * 2)
 
-    line(cx - 20, cy - 105, cx + 20, cy - 105)
+     fill(245, 245, 240)
+     circle(cx, cy, (R + 8) * 2)
 
-    fill(180)
-    rect(cx, cy, 120, 120)
-
-    rect(cx - 80, cy, 40, 100)
-    rect(cx + 80, cy, 40, 100)
-
-    rect(cx - 30, cy + 120, 40, 80)
-    rect(cx + 30, cy + 120, 40, 80)
-    
-    fill(255, 0, 0)
-    arc(120, 250, 30, 30, 0, PI, PIE)
-    arc(280, 250, 30, 30, 0, PI, PIE)
-    arc(200, 40, 30, 30, PI, 2*PI+1, PIE)
-    arc(170, 360, 30, 30, 0, PI, PIE)
-    arc(230, 360, 30, 30, 0, PI, PIE)
+     stroke_cap( ROUND)
+     for i in range(60):
+         a =  remap(i, 0, 60, 0,  TWO_PI) -  HALF_PI
+         major = (i % 5 == 0)
+         r0 = R - (18 if major else 8)
+         stroke(80 if major else 180)
+         stroke_weight(2.5 if major else 1)
+         line(
+            cx +  cos(a) * r0,  cy +  sin(a) * r0,
+            cx +  cos(a) * R,   cy +  sin(a) * R
+         )
          
-def grid():
-    stroke(255)
-    for x in range(width):
-        if x % 20 == 0:
-            for y in range(height):
-                if y % 20 == 0:
-                    line(x,0,x,height)
-                    line(0,y,width,y)
-    stroke(0)
+     no_stroke()
+     fill(60)
+     text_size(16)
+     for i in range(1, 13):
+         a =  remap(i, 0, 12, 0,  TWO_PI) -  HALF_PI
+         nr = R - 34
+         text(str(i), cx +  cos(a) * nr, cy +  sin(a) * nr)
 
-def displayCoordinates():
-    fill(0)
-    text(str(mouse_x) + ", " + str(mouse_y), 227, 10)
-    
-    
+     def draw_hand(angle, length, tail, weight, col):
+         stroke(*col)
+         stroke_weight(weight)
+         stroke_cap( ROUND)
+         line(
+            cx -  cos(angle) * tail, cy -  sin(angle) * tail,
+            cx +  cos(angle) * length, cy +  sin(angle) * length
+         )
+
+     draw_hand(hr_angle,  R * 0.52, 14, 6,   (30, 30, 30))
+     draw_hand(min_angle, R * 0.78, 18, 3.5, (70, 70, 70))
+     draw_hand(sec_angle, R * 0.88, 22, 1.5, (220, 0, 60))
+
+     no_stroke()
+     fill(220, 0, 60)
+     circle(cx, cy, 12)
+     fill(30)
+     circle(cx, cy, 5)
