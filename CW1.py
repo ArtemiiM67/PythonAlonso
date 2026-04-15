@@ -23,18 +23,7 @@ def draw():
      fill(245, 245, 240)
      circle(cx, cy, (R + 8) * 2)
 
-     stroke_cap( ROUND)
-     for i in range(60):
-         a =  remap(i, 0, 60, 0,  TWO_PI) -  HALF_PI
-         major = (i % 5 == 0)
-         r0 = R - (18 if major else 8)
-         stroke(80 if major else 180)
-         stroke_weight(2.5 if major else 1)
-         line(
-            cx +  cos(a) * r0,  cy +  sin(a) * r0,
-            cx +  cos(a) * R,   cy +  sin(a) * R
-         )
-         
+     stroke_cap(ROUND)
      no_stroke()
      fill(60)
      text_size(16)
