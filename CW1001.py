@@ -1,52 +1,37 @@
 from PIL import Image
+import numpy as np
 
-pixel_list = []
-img_width, img_height = 0, 0
-img = Image.open("test.jpg")
-img_width, img_height = img.size
-img = img.convert("RGB") 
+Img = Image.open('alonso.jpg').convert("RGBA") 
 
 def setup():
-    size(img_width, img_height)
-    image_mode(CENTER)
+    size(200, 800)
+    image(Img, 0, 0, width, height)
+    load_np_pixels()
+    global original
+    original = np_pixels.copy()
     
-    pixels1 = img.load()
-    for y in range(img_height):
-        pixel_row = []
-        for x in range(img_width):
-            pixel_color = pixels1[x, y]
-            r, g, b = pixel_color
-            pixel_row.append((r, g, b))
-        pixel_list.append(pixel_row)
-        
-    background(220)
+    np_pixels[:, :, 3] = 255
+    update_np_pixels()
 
-def draw():   
+def draw():
+    temp = remap(mouse_x, 0, width, -50, 50)
+    hue_shift = remap(mouse_y, 0, height, -50, 50)
+
+    np_pixels[:, :, 0] = constrain(original[:, :, 0] + temp + hue_shift, 0, 255)
+    np_pixels[:, :, 1] = constrain(original[:, :, 1] + temp, 0, 255)
+    np_pixels[:, :, 2] = constrain(original[:, :, 2] + temp - hue_shift, 0, 255)
+
+    h_mid = height // 2
+    w_mid = width // 2
+    
+    np_pixels[0:h_mid, 0:w_mid, 0] = constrain(original[0:h_mid, 0:w_mid, 0] + 50, 0, 255)
+    np_pixels[0:h_mid, w_mid:, 1] = constrain(original[0:h_mid, w_mid:, 1] + 30, 0, 255)
+    np_pixels[h_mid:, 0:w_mid, 2] = constrain(original[h_mid:, 0:w_mid, 2] + 40, 0, 255)
+    np_pixels[h_mid:, w_mid:, 0] = constrain(original[h_mid:, w_mid:, 0] + 60, 0, 255)
+    np_pixels[h_mid:, w_mid:, 1] = constrain(original[h_mid:, w_mid:, 1] + 45, 0, 255)
+    
     if is_mouse_pressed:
-        background(220)
-        
-        img_w = len(pixel_list[0])
-        img_h = len(pixel_list)
-        mid_x = img_w // 2
-        mid_y = img_h // 2
-        temp = remap(mouse_x, 0, width, 100, -100)
+        alpha_value = remap(mouse_x, 0, width, 0, 255) 
+        np_pixels[:, :, 3] = alpha_value
 
-        for y in range(0, img_h, 2):
-            for x in range(0, img_w, 2):  
-                r, g, b = pixel_list[y][x]
-                if x < mid_x and y < mid_y:
-                    r, g, b = r * 1.5, g * 0.7, b * 0.7
-                elif x >= mid_x and y < mid_y:
-                    r, g, b = r * 0.7, g * 1.5, b * 0.7
-                elif x < mid_x and y >= mid_y:
-                    r, g, b = r * 0.7, g * 0.7, b * 1.5
-                else:
-                    r, g, b = r * 1.2, g * 1.2, b * 0.5
-
-                r_final = constrain(int(r + temp), 0, 255)
-                g_final = constrain(int(g), 0, 255)
-                b_final = constrain(int(b - temp), 0, 255)
-                
-                fill(r_final, g_final, b_final)  
-                no_stroke()
-                ellipse(x, y, 2, 2)
+    update_np_pixels()
